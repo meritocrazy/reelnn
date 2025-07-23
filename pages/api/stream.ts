@@ -26,7 +26,7 @@ export default async function handler(request: Request) {
 
     const { id } = decodedToken;
 
-    const apiUrl = `${BACKEND_URL}/api/v1/dl/${id}?token=${token}`;
+    const apiUrl = `${BACKEND_URL}/api/v1/dl/${mid}?token=${token}`;
 
     const headers: HeadersInit = {};
     if (request.headers.get('range')) {
