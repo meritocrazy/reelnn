@@ -42,7 +42,7 @@ export default async function handler(request: Request) {
       } catch (shortenerError) {
         console.error('URL shortener error:', shortenerError);
       }
-    else if (SHORTENER_API_URL && SHORTENER_API_KEY) {
+    else (SHORTENER_API_URL && SHORTENER_API_KEY) {
       try {
         const teleshortenerUrl = `${SHORTENER_API_URL}?api=${SHORTENER_API_KEY}&url=${encodeURIComponent(telegramLink)}`;
         const response = await fetch(teleshortenerUrl);
