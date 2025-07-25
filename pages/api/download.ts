@@ -26,7 +26,7 @@ export default async function handler(request: Request) {
   
     const telegramLink = `https://t.me/${NEXT_PUBLIC_TELEGRAM_BOT_NAME}?start=file_${compactParams}&text=${encodeURIComponent(`${title} ${quality}`)}`;
     
-    let directLink = streamUrl;
+    let directLink;
     
     // Use URL shortener if API URL and key are available
     if (SHORTENER_API_URL && SHORTENER_API_KEY) {
