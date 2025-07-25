@@ -27,6 +27,7 @@ export default async function handler(request: Request) {
     const telegramLink = `https://t.me/${NEXT_PUBLIC_TELEGRAM_BOT_NAME}?start=file_${compactParams}&text=${encodeURIComponent(`${title} ${quality}`)}`;
     
     let directLink = streamUrl;
+    let telegramLink = teleDownLink;
     
     // Use URL shortener if API URL and key are available
     if (SHORTENER_API_URL && SHORTENER_API_KEY) {
@@ -41,11 +42,23 @@ export default async function handler(request: Request) {
       } catch (shortenerError) {
         console.error('URL shortener error:', shortenerError);
       }
+    else if (SHORTENER_API_URL && SHORTENER_API_KEY) {
+      try {
+        const teleshortenerUrl = `${SHORTENER_API_URL}?api=${SHORTENER_API_KEY}&url=${encodeURIComponent(telegramLink)}`;
+        const response = await fetch(teleshortenerUrl);
+        const data = await response.json();
+        
+        if (data && data.shortenedUrl) {
+          teleDownLink = data.shortenedUrl;
+        }
+      } catch (shortenerError) {
+        console.error('URL shortener error:', shortenerError);
+      }
     }
 
     return new Response(JSON.stringify({
       directLink,
-      telegramLink,
+      teleDownLink,
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
