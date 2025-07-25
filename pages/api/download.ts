@@ -36,7 +36,7 @@ export default async function handler(request: Request) {
         const data = await response.json();
         
         if (data && data.shortenedUrl) {
-          shortlink = data.shortenedUrl;
+          directLink = data.shortenedUrl;
         }
       } catch (shortenerError) {
         console.error('URL shortener error:', shortenerError);
