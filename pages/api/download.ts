@@ -31,7 +31,7 @@ export default async function handler(request: Request) {
     // Use URL shortener if API URL and key are available
     if (SHORTENER_API_URL && SHORTENER_API_KEY) {
       try {
-        const shortenerUrl = `${SHORTENER_API_URL}?api=${SHORTENER_API_KEY}&url=${VERCEL_URL}${encodeURIComponent(streamUrl)}`;
+        const shortenerUrl = `${SHORTENER_API_URL}?api=${SHORTENER_API_KEY}&url=${encodeURIComponent(streamUrl)}`;
         const response = await fetch(shortenerUrl);
         const data = await response.json();
         
