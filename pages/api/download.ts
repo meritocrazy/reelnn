@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_TELEGRAM_BOT_NAME, SHORTENER_API_URL, SHORTENER_API_KEY, BACKEND_URL } from '@/config';
+import { NEXT_PUBLIC_TELEGRAM_BOT_NAME, SHORTENER_API_URL, SHORTENER_API_KEY } from '@/config';
 
 export const runtime = 'edge';
 
