@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_TELEGRAM_BOT_NAME, SHORTENER_API_URL, SHORTENER_API_KEY } from '@/config';
+import { NEXT_PUBLIC_TELEGRAM_BOT_NAME, SHORTENER_API_URL, SHORTENER_API_KEY, BACKEND_URL } from '@/config';
 
 export const runtime = 'edge';
 
@@ -26,17 +26,17 @@ export default async function handler(request: Request) {
   
     const telegramLink = `https://t.me/${NEXT_PUBLIC_TELEGRAM_BOT_NAME}?start=file_${compactParams}&text=${encodeURIComponent(`${title} ${quality}`)}`;
     
-    let directLink;
+    let shortlink = streamUrl;
     
     // Use URL shortener if API URL and key are available
     if (SHORTENER_API_URL && SHORTENER_API_KEY) {
       try {
-        const shortenerUrl = `${SHORTENER_API_URL}?api=${SHORTENER_API_KEY}&url=${encodeURIComponent(streamUrl)}`;
+        const shortenerUrl = `${SHORTENER_API_URL}?api=${SHORTENER_API_KEY}&url=${VERCEL_URL}${encodeURIComponent(streamUrl)}`;
         const response = await fetch(shortenerUrl);
         const data = await response.json();
         
         if (data && data.shortenedUrl) {
-          directLink = data.shortenedUrl;
+          shortlink = data.shortenedUrl;
         }
       } catch (shortenerError) {
         console.error('URL shortener error:', shortenerError);
@@ -44,7 +44,7 @@ export default async function handler(request: Request) {
     }
 
     return new Response(JSON.stringify({
-      directLink,
+      shortlink,
       telegramLink,
     }), {
       status: 200,
